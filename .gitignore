@@ -67,3 +67,5 @@ typings/
 db/database.sqlite
 
 package-lock.json
+config/connection.js
+config/connection.js
