@@ -1,4 +1,6 @@
 const Sequelize = require('sequelize');
+const Pessoa = require('./Pessoa');
+const Campanha = require('./Campanha');
 
 const sequelize = require('../../config/database');
 
@@ -8,20 +10,29 @@ const hooks = {
 const tableName = 'doacao';
 
 const Doacao = sequelize.define('Doacao', {
-  nome: {
-    type: Sequelize.STRING,
+  quantidade: {
+    type: Sequelize.INTEGER,
   },
-  ra: {
-    type: Sequelize.STRING,
-    unique: true,
+  pessoa_id: {
+    type: Sequelize.INTEGER,
+
+    references: {
+      model: Pessoa,
+      key: 'id',
+    },
   },
-  celular: {
-    type: Sequelize.STRING,
+  campanha_id: {
+    type: Sequelize.INTEGER,
+
+    references: {
+      model: Campanha,
+      key: 'id',
+    },
   },
-  email: {
-    type: Sequelize.STRING,
-  },
-}, { hooks, tableName });
+}, {
+  hooks,
+  tableName,
+});
 
 // eslint-disable-next-line
 Doacao.prototype.toJSON = function () {

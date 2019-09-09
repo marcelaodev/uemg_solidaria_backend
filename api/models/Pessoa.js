@@ -1,11 +1,12 @@
 const Sequelize = require('sequelize');
+const Grupo = require('./Grupo');
 
 const sequelize = require('../../config/database');
 
 const hooks = {
 };
 
-const tableName = 'pessoas';
+const tableName = 'pessoa';
 
 const Pessoa = sequelize.define('Pessoa', {
   nome: {
@@ -21,7 +22,18 @@ const Pessoa = sequelize.define('Pessoa', {
   email: {
     type: Sequelize.STRING,
   },
-}, { hooks, tableName });
+  grupo_id: {
+    type: Sequelize.INTEGER,
+
+    references: {
+      model: Grupo,
+      key: 'id',
+    },
+  },
+}, {
+  hooks,
+  tableName,
+});
 
 // eslint-disable-next-line
 Pessoa.prototype.toJSON = function () {

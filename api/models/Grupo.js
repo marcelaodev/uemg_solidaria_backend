@@ -5,17 +5,11 @@ const sequelize = require('../../config/database');
 const hooks = {
 };
 
-const tableName = 'campanha';
+const tableName = 'grupo';
 
-const Campanha = sequelize.define('Campanha', {
+const Grupo = sequelize.define('Grupo', {
   nome: {
     type: Sequelize.STRING,
-  },
-  inicio: {
-    type: Sequelize.DATE,
-  },
-  final: {
-    type: Sequelize.DATE,
   },
 }, {
   hooks,
@@ -23,10 +17,10 @@ const Campanha = sequelize.define('Campanha', {
 });
 
 // eslint-disable-next-line
-Campanha.prototype.toJSON = function () {
+Grupo.prototype.toJSON = function () {
   const values = Object.assign({}, this.get());
 
   return values;
 };
 
-module.exports = Campanha;
+module.exports = Grupo;
