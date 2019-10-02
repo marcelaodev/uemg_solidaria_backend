@@ -12,11 +12,16 @@ const hooks = {
 const tableName = 'users';
 
 const User = sequelize.define('User', {
-  email: {
+  usu_id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  usu_email: {
     type: Sequelize.STRING,
     unique: true,
   },
-  password: {
+  usu_password: {
     type: Sequelize.STRING,
   },
 }, { hooks, tableName });
