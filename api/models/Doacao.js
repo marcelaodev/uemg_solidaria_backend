@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const Pessoa = require('./Pessoa');
+const User = require('./User');
 const Campanha = require('./Campanha');
 
 const sequelize = require('../../config/database');
@@ -18,12 +18,12 @@ const Doacao = sequelize.define('Doacao', {
   doa_quantidade: {
     type: Sequelize.INTEGER,
   },
-  doa_pessoaid: {
+  doa_usuid: {
     type: Sequelize.INTEGER,
 
     references: {
-      model: Pessoa,
-      key: 'pes_id',
+      model: User,
+      key: 'usu_id',
     },
   },
   doa_campanhaid: {
