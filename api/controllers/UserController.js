@@ -9,10 +9,10 @@ const UserController = () => {
     if (body.password === body.password2) {
       try {
         const user = await User.create({
-          email: body.email,
-          password: body.password,
+          usu_email: body.email,
+          usu_password: body.password,
         });
-        const token = authService().issue({ id: user.id });
+        const token = authService().issue({ id: user.usu_id });
 
         return res.status(200).json({ token, user });
       } catch (err) {
@@ -32,7 +32,7 @@ const UserController = () => {
         const user = await User
           .findOne({
             where: {
-              email,
+              usu_email: email,
             },
           });
 
@@ -40,7 +40,7 @@ const UserController = () => {
           return res.status(400).json({ msg: 'Bad Request: User not found' });
         }
 
-        if (bcryptService().comparePassword(password, user.password)) {
+        if (bcryptService().comparePassword(password, user.usu_password)) {
           const token = authService().issue({ id: user.id });
 
           return res.status(200).json({ token, user });

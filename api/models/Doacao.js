@@ -10,23 +10,28 @@ const hooks = {
 const tableName = 'doacao';
 
 const Doacao = sequelize.define('Doacao', {
-  quantidade: {
+  doa_id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  doa_quantidade: {
     type: Sequelize.INTEGER,
   },
-  pessoa_id: {
+  doa_pessoaid: {
     type: Sequelize.INTEGER,
 
     references: {
       model: Pessoa,
-      key: 'id',
+      key: 'pes_id',
     },
   },
-  campanha_id: {
+  doa_campanhaid: {
     type: Sequelize.INTEGER,
 
     references: {
       model: Campanha,
-      key: 'id',
+      key: 'camp_id',
     },
   },
 }, {

@@ -8,7 +8,12 @@ const hooks = {
 const tableName = 'grupo';
 
 const Grupo = sequelize.define('Grupo', {
-  nome: {
+  gru_id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  gru_nome: {
     type: Sequelize.STRING,
   },
 }, {

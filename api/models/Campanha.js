@@ -8,13 +8,18 @@ const hooks = {
 const tableName = 'campanha';
 
 const Campanha = sequelize.define('Campanha', {
-  nome: {
+  camp_id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  camp_nome: {
     type: Sequelize.STRING,
   },
-  inicio: {
+  camp_inicio: {
     type: Sequelize.DATE,
   },
-  final: {
+  camp_final: {
     type: Sequelize.DATE,
   },
 }, {

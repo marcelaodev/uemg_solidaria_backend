@@ -9,25 +9,30 @@ const hooks = {
 const tableName = 'pessoa';
 
 const Pessoa = sequelize.define('Pessoa', {
-  nome: {
+  pes_id: {
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  pes_nome: {
     type: Sequelize.STRING,
   },
-  ra: {
+  pes_ra: {
     type: Sequelize.STRING,
     unique: true,
   },
-  celular: {
+  pes_celular: {
     type: Sequelize.STRING,
   },
-  email: {
+  pes_email: {
     type: Sequelize.STRING,
   },
-  grupo_id: {
+  pes_grupoid: {
     type: Sequelize.INTEGER,
 
     references: {
       model: Grupo,
-      key: 'id',
+      key: 'gru_id',
     },
   },
 }, {
