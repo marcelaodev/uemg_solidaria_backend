@@ -4,15 +4,16 @@ const publicRoutes = {
   'POST /login': 'UserController.login',
   'POST /validate': 'UserController.validate',
 
-  'GET /campanha': 'CampanhaController.getAll',
-  'GET /campanha/{id}': 'CampanhaController.get',
-  'GET /campanha/{id}/grupo': 'CampanhaController.getRankingGrupo',
-  'GET /campanha/{id}/individual': 'CampanhaController.getRankingIndividual',
+  'GET /campanhas': 'CampanhaController.getAll',
+  'GET /campanha/:camp_id': 'CampanhaController.get',
 
+/*   'GET /campanha/:camp_id/grupo': 'CampanhaController.getRankingGrupo',
+  'GET /campanha/:camp_id/individual': 'CampanhaController.getRankingIndividual', */
+/*
   'GET /grupo': 'GrupoController.getAll',
-  'GET /grupo/{id}/alfabetico': 'GrupoController.getIntegrantesAlfabetico',
-  'GET /grupo/{id}/cronologico': 'GrupoController.getIntegrantesCronologico',
-  'GET /grupo/{id}/doacao/{campanha}': 'GrupoController.getIntegrantesDoacao',
+  'GET /grupo/:gru_id/alfabetico': 'GrupoController.getIntegrantesAlfabetico',
+  'GET /grupo/:gru_id/cronologico': 'GrupoController.getIntegrantesCronologico',
+  'GET /grupo/:gru_id/doacao/:camp_id': 'GrupoController.getIntegrantesDoacao', */
 };
 
 module.exports = publicRoutes;
