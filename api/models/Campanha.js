@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const User = require('./User');
 
 const sequelize = require('../../config/database');
 
@@ -27,6 +28,14 @@ const Campanha = sequelize.define('Campanha', {
   camp_final: {
     type: Sequelize.DATE,
     allowNull: false,
+  },
+  camp_createdby: {
+    type: Sequelize.INTEGER,
+
+    references: {
+      model: User,
+      key: 'usu_id',
+    },
   },
 }, {
   hooks,

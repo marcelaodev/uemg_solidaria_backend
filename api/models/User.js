@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const bcryptService = require('../services/bcrypt.service');
+const Grupo = require('./Grupo');
 
 const sequelize = require('../../config/database');
 
@@ -23,6 +24,27 @@ const User = sequelize.define('User', {
   },
   usu_password: {
     type: Sequelize.STRING,
+  },
+  usu_nome: {
+    type: Sequelize.STRING,
+  },
+  usu_ra: {
+    type: Sequelize.STRING,
+    unique: true,
+  },
+  usu_celular: {
+    type: Sequelize.STRING,
+  },
+  usu_grupoid: {
+    type: Sequelize.INTEGER,
+
+    references: {
+      model: Grupo,
+      key: 'gru_id',
+    },
+  },
+  usu_acesso: {
+    type: Sequelize.INTEGER,
   },
 }, { hooks, tableName });
 
