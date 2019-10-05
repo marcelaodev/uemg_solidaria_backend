@@ -26,10 +26,10 @@ const server = http.Server(app);
 const mappedOpenRoutes = mapRoutes(config.publicRoutes, 'api/controllers/');
 const mappedAuthRoutes = mapRoutes(config.privateRoutes, 'api/controllers/');
 if (config.autoRequire) {
-  let normalizedPath = require('path').join(__dirname, 'models/');
+  const normalizedPath = require('path').join(__dirname, 'models/');
 
   require('fs').readdirSync(normalizedPath).forEach((file) => {
-    require('./models/' + file);
+    require(`./models/${  file}`);
   });
 }
 const DB = dbService(environment, config.migrate).start();

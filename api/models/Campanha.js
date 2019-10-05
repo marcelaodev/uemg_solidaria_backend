@@ -22,11 +22,11 @@ const Campanha = sequelize.define('Campanha', {
     },
   },
   camp_inicio: {
-    type: Sequelize.DATE,
+    type: Sequelize.DATEONLY,
     allowNull: false,
   },
   camp_final: {
-    type: Sequelize.DATE,
+    type: Sequelize.DATEONLY,
     allowNull: false,
   },
   camp_createdby: {
@@ -41,6 +41,37 @@ const Campanha = sequelize.define('Campanha', {
   hooks,
   tableName,
 });
+
+Campanha.getAll = () => Campanha.findAll({
+  attributes: {
+    include: [
+      [Sequelize.literal('CASE WHEN camp_final > NOW() THEN 1 ELSE 0 END'), 'camp_ativo'],
+      // include information about participants and donations count
+    ],
+    exclude: [
+      'createdAt',
+      'updatedAt',
+      'camp_createdby',
+    ],
+  },
+});
+
+Campanha.get = (camp_id) => Campanha.findOne({
+  attributes: {
+    include: [
+      [Sequelize.literal('CASE WHEN camp_final > NOW() THEN 1 ELSE 0 END'), 'camp_ativo'],
+    ],
+    exclude: [
+      'createdAt',
+      'updatedAt',
+      'camp_createdby',
+    ],
+  },
+  where: {
+    camp_id,
+  },
+});
+
 
 // eslint-disable-next-line
 Campanha.prototype.toJSON = function () {

@@ -34,6 +34,10 @@ const Doacao = sequelize.define('Doacao', {
       key: 'camp_id',
     },
   },
+  doa_confirmado: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
+  },
 }, {
   hooks,
   tableName,
