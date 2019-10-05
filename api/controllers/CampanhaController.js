@@ -12,7 +12,7 @@ const CampanhaController = () => {
         camp_createdby: token.id,
       });
 
-      return res.status(200).json({ id: campanha.camp_id });
+      return res.status(200).json({ camp_id: campanha.camp_id });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ msg: 'Internal server error', errors: err.errors });

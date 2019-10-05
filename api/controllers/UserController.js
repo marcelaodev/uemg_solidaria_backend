@@ -6,11 +6,11 @@ const UserController = () => {
   const register = async (req, res) => {
     const { body } = req;
 
-    if (body.password === body.password2) {
+    if (body.usu_password === body.usu_password2) {
       try {
         const user = await User.create({
-          usu_email: body.email,
-          usu_password: body.password,
+          usu_email: body.usu_email,
+          usu_password: body.usu_password,
         });
         const token = authService().issue({ id: user.usu_id });
 
@@ -25,14 +25,14 @@ const UserController = () => {
   };
 
   const login = async (req, res) => {
-    const { email, password } = req.body;
+    const { usu_email, usu_password } = req.body;
 
-    if (email && password) {
+    if (usu_email && usu_password) {
       try {
         const user = await User
           .findOne({
             where: {
-              usu_email: email,
+              usu_email: usu_email,
             },
           });
 
@@ -40,8 +40,8 @@ const UserController = () => {
           return res.status(400).json({ msg: 'Bad Request: User not found' });
         }
 
-        if (bcryptService().comparePassword(password, user.usu_password)) {
-          const token = authService().issue({ id: user.id });
+        if (bcryptService().comparePassword(usu_password, user.usu_password)) {
+          const token = authService().issue({ usu_id: user.usu_id });
 
           return res.status(200).json({ token, user });
         }
