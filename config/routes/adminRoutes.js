@@ -4,9 +4,9 @@ const adminRoutes = {
     'POST /grupo': 'GrupoController.create',
   
     'POST /campanha': 'CampanhaController.create',
-
+/* 
     'GET /doacao': 'DoacaoController.getAll',
-    'POST /doacao': 'DoacaoController.create',
+    'POST /doacao': 'DoacaoController.create', */
 /* 
     'PUT /doacao/:doa_id': 'DoacaoController.confirm',
 

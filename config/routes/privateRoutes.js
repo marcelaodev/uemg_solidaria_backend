@@ -3,7 +3,7 @@ const privateRoutes = {
 
 
 /*   
-  'POST /doacao': 'DoacaoController.create',
+  'POST /doacao': 'DoacaoController.create',*/
 };
 
 module.exports = privateRoutes;
