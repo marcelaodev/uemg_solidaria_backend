@@ -17,9 +17,11 @@ const Doacao = sequelize.define('Doacao', {
   },
   doa_quantidade: {
     type: Sequelize.INTEGER,
+    allowNull: false,
   },
   doa_usuid: {
     type: Sequelize.INTEGER,
+    allowNull: false,
 
     references: {
       model: User,

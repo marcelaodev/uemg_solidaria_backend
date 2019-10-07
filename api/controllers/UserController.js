@@ -79,12 +79,35 @@ const UserController = () => {
     }
   };
 
+  const edit = async (req, res) => {
+
+    try {
+      const user = await User
+        .findOne({
+          where: {
+            usu_id: req.token.usu_id,
+          },
+        });
+
+      if (!user) {
+        return res.status(400).json({ msg: 'Bad Request: User not found' });
+      }
+
+      user.update(req.body);
+      
+      return res.status(200).json();
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
+    }
+  };
 
   return {
     register,
     login,
     validate,
     getAll,
+    edit,
   };
 };
 

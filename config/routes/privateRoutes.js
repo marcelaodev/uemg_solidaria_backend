@@ -1,9 +1,9 @@
 const privateRoutes = {
-  /*   'PUT /user/:usu_id': 'UserController.edit', */
+    'PUT /user': 'UserController.edit',
 
 
-/*   
-  'POST /doacao': 'DoacaoController.create',*/
+  
+  'POST /doacao': 'DoacaoController.create',
 };
 
 module.exports = privateRoutes;
