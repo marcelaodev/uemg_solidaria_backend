@@ -12,12 +12,12 @@ const UserController = () => {
           usu_email: body.usu_email,
           usu_password: body.usu_password,
         });
-        const token = authService().issue({ id: user.usu_id });
+        const token = authService().issue({ usu_id: user.usu_id });
 
         return res.status(200).json({ token, user });
       } catch (err) {
         console.log(err);
-        return res.status(500).json({ msg: 'Internal server error' });
+        return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
       }
     }
 
@@ -49,7 +49,7 @@ const UserController = () => {
         return res.status(401).json({ msg: 'Unauthorized' });
       } catch (err) {
         console.log(err);
-        return res.status(500).json({ msg: 'Internal server error' });
+        return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
       }
     }
 
@@ -75,7 +75,7 @@ const UserController = () => {
       return res.status(200).json({ users });
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ msg: 'Internal server error' });
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
     }
   };
 

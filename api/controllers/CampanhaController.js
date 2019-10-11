@@ -26,7 +26,7 @@ const CampanhaController = () => {
       return res.status(200).json({ campanhas });
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ msg: 'Internal server error' });
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
     }
   };
 
@@ -41,7 +41,7 @@ const CampanhaController = () => {
       return res.status(200).json({ campanha });
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ msg: 'Internal server error' });
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
     }
   };
 

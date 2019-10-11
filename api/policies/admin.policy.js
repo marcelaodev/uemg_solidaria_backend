@@ -2,6 +2,9 @@ const User = require('../models/User');
 
 module.exports = async (req, res, next) => {
   const usu_id = req.token.usu_id;
+  if (!usu_id) {
+    return res.status(403).json({ msg: 'Not allowed' });
+  }
 
   const user = await User
           .findOne({
@@ -10,10 +13,10 @@ module.exports = async (req, res, next) => {
             },
           });
 
-        if (user.usu_acesso == 2) {
-          req.admin = true;
-          return next();
-        } else {
-          return res.status(403).json({ msg: 'Not allowed' });
-        }
+  if (user.usu_acesso == 2) {
+    req.admin = true;
+    return next();
+  } else {
+    return res.status(403).json({ msg: 'Not allowed' });
+  }
 };

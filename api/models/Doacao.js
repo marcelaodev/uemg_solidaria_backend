@@ -28,8 +28,9 @@ const Doacao = sequelize.define('Doacao', {
       key: 'usu_id',
     },
   },
-  doa_campanhaid: {
+  doa_campid: {
     type: Sequelize.INTEGER,
+    allowNull: false,
 
     references: {
       model: Campanha,

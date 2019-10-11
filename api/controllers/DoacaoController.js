@@ -9,7 +9,7 @@ const DoacaoController = () => {
       const doacao = await Doacao.create({
         doa_quantidade: body.doa_quantidade,
         doa_usuid: token.usu_id,
-        // doa_campid: body.doa_campid,
+        doa_campid: body.doa_campid,
       });
 
       return res.status(200).json({ doa_id: doacao.doa_id });
@@ -37,7 +37,7 @@ const DoacaoController = () => {
       const doacao = await Doacao.create({
         doa_quantidade: body.doa_quantidade,
         doa_usuid: params.usu_id,
-        // doa_campid: body.doa_campid,
+        doa_campid: body.doa_campid,
         doa_confirmado: true,
       });
 
@@ -48,9 +48,43 @@ const DoacaoController = () => {
     }
   };
 
+  const update = async (req, res) => {
+
+    try {
+      const doacao = await Doacao
+        .findOne({
+          where: {
+            doa_id: req.params.doa_id,
+          },
+        });
+
+      if (!doacao) {
+        return res.status(400).json({ msg: 'Bad Request: Doação not found' });
+      }
+
+      if (doacao.doa_confirmado) {
+        if (req.body.confirm) {
+          return res.status(400).json({ msg: 'Doação já foi confirmada.' });
+        }
+      } else {
+        if (!req.body.confirm) {
+          return res.status(400).json({ msg: 'Doação já está pendente.' });
+        }
+      }
+
+      doacao.update({ doa_confirmado: req.body.confirm });
+      
+      return res.status(200).json();
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
+    }
+  };
+
   return {
     create,
     createTo,
+    update
   };
 };
 

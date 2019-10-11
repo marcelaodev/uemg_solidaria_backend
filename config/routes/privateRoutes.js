@@ -1,8 +1,6 @@
 const privateRoutes = {
-    'PUT /user': 'UserController.edit',
+  'PUT /user': 'UserController.edit',
 
-
-  
   'POST /doacao': 'DoacaoController.create',
 };
 
