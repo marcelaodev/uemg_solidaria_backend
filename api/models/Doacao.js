@@ -17,22 +17,29 @@ const Doacao = sequelize.define('Doacao', {
   },
   doa_quantidade: {
     type: Sequelize.INTEGER,
+    allowNull: false,
   },
   doa_usuid: {
     type: Sequelize.INTEGER,
+    allowNull: false,
 
     references: {
       model: User,
       key: 'usu_id',
     },
   },
-  doa_campanhaid: {
+  doa_campid: {
     type: Sequelize.INTEGER,
+    allowNull: false,
 
     references: {
       model: Campanha,
       key: 'camp_id',
     },
+  },
+  doa_confirmado: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false,
   },
 }, {
   hooks,

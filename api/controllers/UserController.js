@@ -6,18 +6,18 @@ const UserController = () => {
   const register = async (req, res) => {
     const { body } = req;
 
-    if (body.password === body.password2) {
+    if (body.usu_password === body.usu_password2) {
       try {
         const user = await User.create({
-          usu_email: body.email,
-          usu_password: body.password,
+          usu_email: body.usu_email,
+          usu_password: body.usu_password,
         });
-        const token = authService().issue({ id: user.usu_id });
+        const token = authService().issue({ usu_id: user.usu_id });
 
         return res.status(200).json({ token, user });
       } catch (err) {
         console.log(err);
-        return res.status(500).json({ msg: 'Internal server error' });
+        return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
       }
     }
 
@@ -25,14 +25,14 @@ const UserController = () => {
   };
 
   const login = async (req, res) => {
-    const { email, password } = req.body;
+    const { usu_email, usu_password } = req.body;
 
-    if (email && password) {
+    if (usu_email && usu_password) {
       try {
         const user = await User
           .findOne({
             where: {
-              usu_email: email,
+              usu_email: usu_email,
             },
           });
 
@@ -40,8 +40,8 @@ const UserController = () => {
           return res.status(400).json({ msg: 'Bad Request: User not found' });
         }
 
-        if (bcryptService().comparePassword(password, user.usu_password)) {
-          const token = authService().issue({ id: user.id });
+        if (bcryptService().comparePassword(usu_password, user.usu_password)) {
+          const token = authService().issue({ usu_id: user.usu_id });
 
           return res.status(200).json({ token, user });
         }
@@ -49,7 +49,7 @@ const UserController = () => {
         return res.status(401).json({ msg: 'Unauthorized' });
       } catch (err) {
         console.log(err);
-        return res.status(500).json({ msg: 'Internal server error' });
+        return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
       }
     }
 
@@ -75,16 +75,39 @@ const UserController = () => {
       return res.status(200).json({ users });
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ msg: 'Internal server error' });
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
     }
   };
 
+  const edit = async (req, res) => {
+
+    try {
+      const user = await User
+        .findOne({
+          where: {
+            usu_id: req.token.usu_id,
+          },
+        });
+
+      if (!user) {
+        return res.status(400).json({ msg: 'Bad Request: User not found' });
+      }
+
+      user.update(req.body);
+      
+      return res.status(200).json();
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
+    }
+  };
 
   return {
     register,
     login,
     validate,
     getAll,
+    edit,
   };
 };
 

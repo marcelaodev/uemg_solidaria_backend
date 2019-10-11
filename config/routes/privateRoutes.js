@@ -1,5 +1,7 @@
 const privateRoutes = {
-  'GET /users': 'UserController.getAll',
+  'PUT /user': 'UserController.edit',
+
+  'POST /doacao': 'DoacaoController.create',
 };
 
 module.exports = privateRoutes;
