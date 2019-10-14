@@ -35,7 +35,7 @@ const User = sequelize.define('User', {
   usu_celular: {
     type: Sequelize.STRING,
   },
-  usu_grupoid: {
+  usu_gruid: {
     type: Sequelize.INTEGER,
 
     references: {
