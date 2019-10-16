@@ -21,6 +21,19 @@ const Grupo = sequelize.define('Grupo', {
   tableName,
 });
 
+Grupo.getAll = () => Grupo.findAll({
+  attributes: {
+    include: [
+      // [Sequelize.literal('CASE WHEN camp_final > NOW() THEN 1 ELSE 0 END'), 'camp_ativo'],
+      // include information about participants and donations count
+    ],
+    exclude: [
+      'createdAt',
+      'updatedAt',
+    ],
+  },
+});
+
 // eslint-disable-next-line
 Grupo.prototype.toJSON = function () {
   const values = Object.assign({}, this.get());

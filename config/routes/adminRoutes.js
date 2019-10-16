@@ -13,30 +13,46 @@ module.exports = adminRoutes;
 
 
   /**
-   * @api {get} /admin/users Retrieve data of all Users
-   * @apiVersion 0.3.0
-   * @apiName GetUsers
-   * @apiGroup User
+   * @api {get} /admin/usuarios Retorna os dados de todos os usuários
+   * @apiVersion 0.1.0
+   * @apiName GetUsuarios
+   * @apiGroup Usuario
    * @apiPermission admin
+   * @apiDescription Requre autenticação bearer obtido no método POST /public/login ou POST /public/usuario
    *
-   * @apiSuccess {Number}   usu_id              The Users-ID.
-   * @apiSuccess {String}   usu_email           Email of the User
-   * @apiSuccess {String}   usu_nome            Name of the User.
-   * @apiSuccess {String}   usu_ra              RA (Registro Acadêmico) of the User.
-   * @apiSuccess {String}   usu_celular         Celular of the User
-   * @apiSuccess {Number}   usu_gruid           The group that the User is attached to (his course).
-   * @apiSuccess {Number}   usu_acesso          1=Normal User, 2=Admin.
-   * @apiSuccess {Date}     createdAt           Date that the User was created.
-   * @apiSuccess {Date}     updatedAt           Date that the User was last modified.
+   * @apiSuccess {Number}   usu_id              Id do usuário
+   * @apiSuccess {String}   usu_email           Email do usuário
+   * @apiSuccess {String}   usu_nome            Nome do usuário
+   * @apiSuccess {String}   usu_ra              RA (Registro Acadêmico) do usuário
+   * @apiSuccess {String}   usu_celular         Celular do usuário
+   * @apiSuccess {Number}   usu_gruid           Id do grupo (curso) que o usuário pertence
+   * @apiSuccess {Number}   usu_acesso          1=Usuário comum, 2=Administrador.
+   * @apiSuccess {Date}     createdAt           Data da criação do usuário
+   * @apiSuccess {Date}     updatedAt           Data da última modificação do usuário
    *
    * @apiError NoAccessRight Only authenticated Admins can access the data.
    *
-   * @apiErrorExample Response (example):
-   *     {
+   * @apiErrorExample Sem enviar token
+   *    HTTP/1.1 401 Unauthorized
+   *    {
+            "msg": "No Authorization was found"
+        }
+   *
+   * @apiErrorExample Token expirado
+   *    HTTP/1.1 401 Unauthorized
+   *    {
             "err": {
                 "name": "TokenExpiredError",
                 "message": "jwt expired",
                 "expiredAt": "2019-10-12T00:42:07.000Z"
             }
-            }
+        }
+   *
+   * @apiErrorExample Token sem permissão administrador
+   *    HTTP/1.1 403 Forbidden
+   *    {
+            "msg": "Not allowed"
+        }
+   *
    */
+  
