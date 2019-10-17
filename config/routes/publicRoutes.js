@@ -1,7 +1,6 @@
 const publicRoutes = {
   'POST /user': 'UserController.register',
   'POST /login': 'UserController.login',
-  'POST /validate': 'UserController.validate',
 
   'GET /campanhas': 'CampanhaController.getAll',
   'GET /campanha/:camp_id': 'CampanhaController.get',
@@ -66,3 +65,54 @@ module.exports = publicRoutes;
    * @apiSuccess {String}   gru_nome     Nome do grupo
    *
    */
+
+
+  /**
+    * 
+    * @api {post} /public/user/     Registra um novo usuário
+    * @apiVersion 0.1.0
+    * @apiName PostUser
+    * @apiGroup Usuario
+    * @apiPermission public
+    *
+    * 
+    * @apiParam {String}   usu_email           Email do usuário
+    * @apiParam {String}   usu_password        Senha do usuário
+    * @apiParam {String}   usu_nome            Nome do usuário
+    * @apiParam {String}   [usu_ra]            RA (Registro Acadêmico) do usuário
+    * @apiParam {String}   [usu_celular]       Celular do usuário
+    * @apiParam {Number}   usu_gruid           Id do grupo (curso) que o usuário pertence
+    *
+    * @apiSuccess {Number}      token         Bearer Token que deve ser usado nas requests /private e /admin
+    * @apiSuccess {Number}      usu_id        Id do usuário criado
+    * 
+    * @apiError ToDo
+    *
+    */
+   
+
+  /**
+    * 
+    * @api {post} /public/login/     Login do usuário
+    * @apiVersion 0.1.0
+    * @apiName PostLogin
+    * @apiGroup Usuario
+    * @apiPermission public
+    *
+    * 
+    * @apiParam {String}   usu_email           Email do usuário
+    * @apiParam {String}   usu_password        Senha do usuário
+    *
+    * @apiSuccess {Number}        token           Bearer Token que deve ser usado nas requests /private e /admin
+    * @apiSuccess {Object[]}      usu
+    * @apiSuccess {String}   usu.usu_id              Id do usuário
+    * @apiSuccess {String}   usu.usu_email           Email do usuário
+    * @apiSuccess {String}   usu.usu_password        Senha do usuário
+    * @apiSuccess {String}   usu.usu_nome            Nome do usuário
+    * @apiSuccess {String}   usu.usu_ra            RA (Registro Acadêmico) do usuário
+    * @apiSuccess {String}   usu.usu_celular       Celular do usuário
+    * @apiSuccess {Number}   usu.usu_gruid           Id do grupo (curso) que o usuário pertence
+    * 
+    * @apiError ToDo
+    *
+    */

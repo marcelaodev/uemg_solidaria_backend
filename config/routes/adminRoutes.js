@@ -80,7 +80,7 @@ module.exports = adminRoutes;
     * 
     * @api {post} /admin/doacao/:usu_id     Cria uma doação para o usuário 'usu_id'
     * @apiVersion 0.1.0
-    * @apiName PostDoacao
+    * @apiName PostDoacaoTerceiro
     * @apiGroup Doação
     * @apiPermission admin
     * @apiDescription Requer autenticação bearer obtido no método POST /public/login

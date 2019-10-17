@@ -6,22 +6,18 @@ const UserController = () => {
   const register = async (req, res) => {
     const { body } = req;
 
-    if (body.usu_password === body.usu_password2) {
-      try {
-        const user = await User.create({
-          usu_email: body.usu_email,
-          usu_password: body.usu_password,
-        });
-        const token = authService().issue({ usu_id: user.usu_id });
+    try {
+      const user = await User.create({
+        usu_email: body.usu_email,
+        usu_password: body.usu_password,
+      });
+      const token = authService().issue({ usu_id: user.usu_id });
 
-        return res.status(200).json({ token, user });
-      } catch (err) {
-        console.log(err);
-        return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
-      }
+      return res.status(200).json({ token, usu_id: user.usu_id });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
     }
-
-    return res.status(400).json({ msg: 'Bad Request: Passwords don\'t match' });
   };
 
   const login = async (req, res) => {
