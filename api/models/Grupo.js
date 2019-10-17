@@ -15,6 +15,7 @@ const Grupo = sequelize.define('Grupo', {
   },
   gru_nome: {
     type: Sequelize.STRING,
+    allowNull: false,
   },
 }, {
   hooks,

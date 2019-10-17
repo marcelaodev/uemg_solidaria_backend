@@ -12,7 +12,7 @@ const GrupoController = () => {
       return res.status(200).json({ gru_id: grupo.gru_id });
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
+      return res.status(500).json({ msg: err.name, errors: err.errors });
     }
   };
 
