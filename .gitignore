@@ -68,3 +68,4 @@ db/database.sqlite
 
 package-lock.json
 config/connection.js
+apidoc
