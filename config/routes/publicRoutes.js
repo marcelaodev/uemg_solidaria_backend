@@ -5,8 +5,8 @@ const publicRoutes = {
   'GET /campanhas': 'CampanhaController.getAll',
   'GET /campanha/:camp_id': 'CampanhaController.get',
 
-  /*   'GET /campanha/:camp_id/grupo': 'CampanhaController.getRankingGrupo',
-  'GET /campanha/:camp_id/individual': 'CampanhaController.getRankingIndividual', */
+  /*   'GET /campanha/:camp_id/grupo': 'CampanhaController.getRankingGrupo',*/
+  'GET /campanha/:camp_id/individual': 'CampanhaController.getRankingIndividual', 
 
   'GET /grupos': 'GrupoController.getAll',
   /* 'GET /grupo/:gru_id/alfabetico': 'GrupoController.getIntegrantesAlfabetico',
@@ -116,3 +116,17 @@ module.exports = publicRoutes;
     * @apiError ToDo
     *
     */
+
+  /**
+   * @api {get} /public/campanha/:camp_id/individual Retorna o ranking de doações individuais da campanha
+   * @apiVersion 0.1.0
+   * @apiName GetCampanhaRankingIndividual
+   * @apiGroup Campanha
+   * @apiPermission public
+   * 
+    * @apiParam {String}   camp_id           Id da campanha para gerar o ranking
+   *
+   * @apiSuccess ToDo
+   * 
+   * @apiError ToDo
+   */
