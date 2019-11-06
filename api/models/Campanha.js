@@ -75,6 +75,37 @@ Campanha.get = (camp_id) => Campanha.findOne({
   },
 });
 
+Campanha.getRankingGrupo = (camp_id) => {
+  let sql = `
+    SELECT
+      g.gru_nome,
+      sum(d.doa_quantidade) AS total
+
+      FROM campanha c
+
+      INNER JOIN doacao d
+        ON d.doa_campid = c.camp_id
+          AND d.doa_confirmado = true
+
+      INNER JOIN users u
+        ON u.usu_id = d.doa_usuid
+
+      INNER JOIN grupo g
+        ON g.gru_id = u.usu_gruid
+
+      WHERE c.camp_id = ${camp_id}
+
+      GROUP BY
+        g.gru_nome,
+        c.camp_id
+
+      ORDER BY
+        total
+  `;
+
+  return sequelize.query(sql);
+}
+
 Campanha.getRankingIndividual = (camp_id) => {
   let sql = `
     select	
