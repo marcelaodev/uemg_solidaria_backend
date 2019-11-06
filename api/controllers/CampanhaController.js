@@ -45,17 +45,43 @@ const CampanhaController = () => {
     }
   };
 
-  /*   const getRankingGrupo = async (req, res) => {
+  const getRankingGrupo = async (req, res) => {
+    try {      
+      let [result, meta] = await Campanha.getRankingGrupo(req.params.camp_id);
+      
+      if (!result) {
+        return res.status(400).json({ msg: 'Bad Request: Campanha not found' });
+      }
+
+      return res.status(200).json( result );
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
+    }
   };
 
   const getRankingIndividual = async (req, res) => {
-  }; */
+    try {      
+      let [result, meta] = await Campanha.getRankingIndividual(req.params.camp_id);
+      
+      if (!result) {
+        return res.status(400).json({ msg: 'Bad Request: Campanha not found' });
+      }
+
+      return res.status(200).json( result );
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
+    }
+  };
 
 
   return {
     create,
     get,
     getAll,
+    getRankingIndividual,
+    getRankingGrupo
   };
 };
 

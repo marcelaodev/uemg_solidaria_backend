@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const User = require('./User');
+const Doacao = require('./Doacao');
 
 const sequelize = require('../../config/database');
 
@@ -42,6 +43,8 @@ const Campanha = sequelize.define('Campanha', {
   tableName,
 });
 
+Campanha.hasMany(Doacao, {as: "Doacoes", foreignKey: "doa_campid", sourceKey: "camp_id"});
+
 Campanha.getAll = () => Campanha.findAll({
   attributes: {
     include: [
@@ -72,6 +75,64 @@ Campanha.get = (camp_id) => Campanha.findOne({
   },
 });
 
+Campanha.getRankingGrupo = (camp_id) => {
+  let sql = `
+    SELECT
+      g.gru_nome,
+      sum(d.doa_quantidade) AS total
+
+      FROM campanha c
+
+      INNER JOIN doacao d
+        ON d.doa_campid = c.camp_id
+          AND d.doa_confirmado = true
+
+      INNER JOIN users u
+        ON u.usu_id = d.doa_usuid
+
+      INNER JOIN grupo g
+        ON g.gru_id = u.usu_gruid
+
+      WHERE c.camp_id = ${camp_id}
+
+      GROUP BY
+        g.gru_nome,
+        c.camp_id
+
+      ORDER BY
+        total DESC
+  `;
+
+  return sequelize.query(sql);
+}
+
+Campanha.getRankingIndividual = (camp_id) => {
+  let sql = `
+    select	
+      u.usu_nome,
+      sum(d.doa_quantidade) as total
+      
+      from campanha c
+      
+      inner join doacao d
+        on d.doa_campid = c.camp_id
+          and d.doa_confirmado = true
+          
+      inner join users u
+        on u.usu_id = d.doa_usuid
+      
+      where c.camp_id = ${camp_id}
+      
+      group by
+        u.usu_nome,
+        c.camp_id,
+        d.doa_usuid
+        
+      order by
+        total DESC`;
+
+  return sequelize.query(sql);
+}
 
 // eslint-disable-next-line
 Campanha.prototype.toJSON = function () {

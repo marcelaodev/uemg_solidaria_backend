@@ -5,17 +5,15 @@ const publicRoutes = {
   'GET /campanhas': 'CampanhaController.getAll',
   'GET /campanha/:camp_id': 'CampanhaController.get',
 
-  /*   'GET /campanha/:camp_id/grupo': 'CampanhaController.getRankingGrupo',
-  'GET /campanha/:camp_id/individual': 'CampanhaController.getRankingIndividual', */
+  'GET /campanha/:camp_id/grupo': 'CampanhaController.getRankingGrupo',
+  'GET /campanha/:camp_id/individual': 'CampanhaController.getRankingIndividual', 
 
   'GET /grupos': 'GrupoController.getAll',
-  /* 'GET /grupo/:gru_id/alfabetico': 'GrupoController.getIntegrantesAlfabetico',
-  'GET /grupo/:gru_id/cronologico': 'GrupoController.getIntegrantesCronologico',
-  'GET /grupo/:gru_id/doacao/:camp_id': 'GrupoController.getIntegrantesDoacao', */
+  'GET /grupo/:gru_id/users': 'GrupoController.getIntegrantes',
+  'GET /grupo/:gru_id/campanha/:camp_id': 'GrupoController.getDoacaoCampanha',
 };
 
 module.exports = publicRoutes;
-
 
   /**
    * @api {get} /public/campanhas Retorna todas as campanhas cadastradas
@@ -66,6 +64,28 @@ module.exports = publicRoutes;
    *
    */
 
+  /**
+   * @api {get} /public/grupo/:gru_id/users Retorna todos os integrantes do grupo
+   * @apiVersion 0.1.0
+   * @apiName GetGruposIntegrantes
+   * @apiGroup Grupo
+   * @apiPermission public
+   *
+   * @apiSuccess {Number}   gru_id       Id do grupo
+   *
+   */
+
+  /**
+   * @api {get} /public/grupo/:gru_id/campanha/:camp_id Retorna ranking de doações do grupo
+   * @apiVersion 0.1.0
+   * @apiName GetGruposDoacao
+   * @apiGroup Grupo
+   * @apiPermission public
+   *
+   * @apiSuccess {Number}   gru_id       Id do grupo
+   * @apiSuccess {Number}   camp_id      Id da campanha
+   *
+   */
 
   /**
     * 
@@ -116,3 +136,31 @@ module.exports = publicRoutes;
     * @apiError ToDo
     *
     */
+
+  /**
+   * @api {get} /public/campanha/:camp_id/individual Retorna o ranking de doações individuais da campanha
+   * @apiVersion 0.1.0
+   * @apiName GetCampanhaRankingIndividual
+   * @apiGroup Campanha
+   * @apiPermission public
+   * 
+    * @apiParam {String}   camp_id           Id da campanha para gerar o ranking
+   *
+   * @apiSuccess ToDo
+   * 
+   * @apiError ToDo
+   */
+
+  /**
+   * @api {get} /public/campanha/:camp_id/grupo Retorna o ranking de doações da campanha agrupado por grupos
+   * @apiVersion 0.1.0
+   * @apiName GetCampanhaRankingGrupo
+   * @apiGroup Campanha
+   * @apiPermission public
+   * 
+    * @apiParam {String}   camp_id           Id da campanha para gerar o ranking
+   *
+   * @apiSuccess ToDo
+   * 
+   * @apiError ToDo
+   */

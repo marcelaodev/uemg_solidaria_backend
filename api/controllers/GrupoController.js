@@ -27,20 +27,38 @@ const GrupoController = () => {
     }
   };
 
-  /*   const getIntegrantesAlfabetico = async (req, res) => {
+  const getIntegrantes = async (req, res) => {
+      try {
+        const users = await Grupo.getIntegrantes(req.params.gru_id);
+  
+        return res.status(200).json(users[0]);
+      } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
+      }
   };
 
-  const getIntegrantesCronologico = async (req, res) => {
-  }; 
+ const getDoacaoCampanha = async (req, res) => {
+    try {
+      const gru_id = req.params.gru_id;
+      const camp_id = req.params.camp_id;
 
-  const getIntegrantesDoacao = async (req, res) => {
+      const users = await Grupo.getDoacaoCampanha(gru_id, camp_id);
+
+      return res.status(200).json(users[0]);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
+    }
   }; 
-  */
+ 
 
 
   return {
     create,
     getAll,
+    getIntegrantes,
+    getDoacaoCampanha,
   };
 };
 
