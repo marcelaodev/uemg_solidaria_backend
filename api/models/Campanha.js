@@ -100,7 +100,7 @@ Campanha.getRankingGrupo = (camp_id) => {
         c.camp_id
 
       ORDER BY
-        total
+        total DESC
   `;
 
   return sequelize.query(sql);
@@ -129,7 +129,7 @@ Campanha.getRankingIndividual = (camp_id) => {
         d.doa_usuid
         
       order by
-        total`;
+        total DESC`;
 
   return sequelize.query(sql);
 }
