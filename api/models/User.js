@@ -48,6 +48,27 @@ const User = sequelize.define('User', {
   },
 }, { hooks, tableName });
 
+User.getDoacoes = (usu_id, camp_id) => {
+  let sql = `
+    SELECT
+      d.doa_id,
+      d.doa_quantidade,
+      d.doa_confirmado,
+      d."createdAt" as "doa_createdAt"
+      
+      FROM doacao d
+      
+      WHERE 1=1
+        AND d.doa_campid = ${camp_id}
+          AND d.doa_usuid = ${usu_id}
+        
+      ORDER BY
+        d.doa_confirmado,
+        d."createdAt"`;
+
+  return sequelize.query(sql);
+};
+
 // eslint-disable-next-line
 User.prototype.toJSON = function () {
   const values = Object.assign({}, this.get());
