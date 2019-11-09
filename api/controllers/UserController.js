@@ -98,12 +98,25 @@ const UserController = () => {
     }
   };
 
+  const getDoacoes = async (req, res) => {
+
+    try {
+      const doacoes = await User.getDoacoes(req.params.usu_id, req.params.camp_id);
+
+      return res.status(200).json(doacoes[0]);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
+    }
+  };
+
   return {
     register,
     login,
     validate,
     getAll,
     edit,
+    getDoacoes
   };
 };
 

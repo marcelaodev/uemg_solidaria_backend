@@ -78,6 +78,7 @@ Campanha.get = (camp_id) => Campanha.findOne({
 Campanha.getRankingGrupo = (camp_id) => {
   let sql = `
     SELECT
+      g.gru_id,
       g.gru_nome,
       sum(d.doa_quantidade) AS total
 
@@ -96,6 +97,7 @@ Campanha.getRankingGrupo = (camp_id) => {
       WHERE c.camp_id = ${camp_id}
 
       GROUP BY
+        g.gru_id,
         g.gru_nome,
         c.camp_id
 
@@ -108,7 +110,8 @@ Campanha.getRankingGrupo = (camp_id) => {
 
 Campanha.getRankingIndividual = (camp_id) => {
   let sql = `
-    select	
+    select
+      u.usu_id,
       u.usu_nome,
       sum(d.doa_quantidade) as total
       
@@ -124,6 +127,7 @@ Campanha.getRankingIndividual = (camp_id) => {
       where c.camp_id = ${camp_id}
       
       group by
+        u.usu_id,
         u.usu_nome,
         c.camp_id,
         d.doa_usuid

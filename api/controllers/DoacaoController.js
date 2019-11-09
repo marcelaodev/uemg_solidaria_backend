@@ -59,20 +59,25 @@ const DoacaoController = () => {
         });
 
       if (!doacao) {
-        return res.status(400).json({ msg: 'Bad Request: Doação not found' });
+        return res.status(400).json({ msg: 'Bad Request: Doaï¿½ï¿½o not found' });
       }
 
       if (doacao.doa_confirmado) {
         if (req.body.confirm) {
-          return res.status(400).json({ msg: 'Doação já foi confirmada.' });
+          return res.status(400).json({ msg: 'Doaï¿½ï¿½o jï¿½ foi confirmada.' });
         }
       } else {
         if (!req.body.confirm) {
-          return res.status(400).json({ msg: 'Doação já está pendente.' });
+          return res.status(400).json({ msg: 'Doaï¿½ï¿½o jï¿½ estï¿½ pendente.' });
         }
       }
 
-      doacao.update({ doa_confirmado: req.body.confirm });
+      let newValues = {doa_confirmado: req.body.confirm};
+      if (req.body.doa_quantidade) {
+        newValues["doa_quantidade"] = req.body.doa_quantidade;
+      }
+      
+      doacao.update(newValues);
       
       return res.status(200).json();
     } catch (err) {

@@ -1,5 +1,6 @@
 const adminRoutes = {
     'GET /users': 'UserController.getAll',
+    'GET /user/:usu_id/doacao/:camp_id': 'UserController.getDoacoes',
 
     'POST /grupo': 'GrupoController.create',
   
