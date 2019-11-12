@@ -1,8 +1,21 @@
 const Campanha = require('../models/Campanha');
+const moment = require('moment');
 
 const CampanhaController = () => {
   const create = async (req, res) => {
     const { body, token } = req;
+
+    const ini = moment(body.camp_inicio);
+    const fim = moment(body.camp_final);
+    const now = moment();
+
+    if (ini > fim) {
+      return res.status(400).json({ msg: 'Bad Request: Data inicial maior que data final' });
+    }
+    
+    if (fim < now) {
+      return res.status(400).json({ msg: 'Bad Request: Data final deve ser posterior a hoje' });
+    }
 
     try {
       const campanha = await Campanha.create({
@@ -47,9 +60,9 @@ const CampanhaController = () => {
 
   const getRankingGrupo = async (req, res) => {
     try {      
-      let [result, meta] = await Campanha.getRankingGrupo(req.params.camp_id);
+      let [result] = await Campanha.getRankingGrupo(req.params.camp_id);
       
-      if (!result) {
+      if (result.length === 0) {
         return res.status(400).json({ msg: 'Bad Request: Campanha not found' });
       }
 
@@ -62,9 +75,9 @@ const CampanhaController = () => {
 
   const getRankingIndividual = async (req, res) => {
     try {      
-      let [result, meta] = await Campanha.getRankingIndividual(req.params.camp_id);
+      let [result] = await Campanha.getRankingIndividual(req.params.camp_id);
       
-      if (!result) {
+      if (result.length === 0) {
         return res.status(400).json({ msg: 'Bad Request: Campanha not found' });
       }
 
