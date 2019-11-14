@@ -29,6 +29,17 @@ const GrupoController = () => {
 
   const getIntegrantes = async (req, res) => {
       try {
+        const grupo = await Grupo
+        .findOne({
+          where: {
+            gru_id: req.params.gru_id
+          },
+        });
+
+        if (!grupo) {
+            return res.status(400).json({ msg: 'Bad Request: Grupo not found' });
+        }
+
         const users = await Grupo.getIntegrantes(req.params.gru_id);
   
         return res.status(200).json(users[0]);
@@ -42,6 +53,17 @@ const GrupoController = () => {
     try {
       const gru_id = req.params.gru_id;
       const camp_id = req.params.camp_id;
+
+      const grupo = await Grupo
+      .findOne({
+        where: {
+          gru_id
+        },
+      });
+
+      if (!grupo) {
+          return res.status(400).json({ msg: 'Bad Request: Grupo not found' });
+      }
 
       const users = await Grupo.getDoacaoCampanha(gru_id, camp_id);
 

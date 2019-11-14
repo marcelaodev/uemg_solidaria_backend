@@ -1,9 +1,53 @@
 const Doacao = require('../models/Doacao');
 const User = require('../models/User');
+const Campanha = require('../models/Campanha');
+const moment = require('moment');
+
+const checkCampanha = async (body, res, camp_id = false) => {
+  if (!camp_id) {
+    camp_id = body.doa_campid;
+  }
+
+  if (!camp_id) {
+    return res.status(400).json({ msg: 'Bad Request: "doa_campid" é obrigatório"' });
+  }
+
+  const campanha = await Campanha
+        .findOne({
+          where: {
+            camp_id
+          },
+        });
+
+  if (!campanha) {
+      return res.status(400).json({ msg: 'Bad Request: Campanha not found' });
+  }
+
+  const camp_final = moment(campanha.camp_final);
+
+  if (camp_final < moment()) {
+    return res.status(400).json({ msg: 'Bad Request: Campanha terminou em: ' + camp_final.format("DD/MM/YYYY") });
+  }
+
+  return true;
+}
 
 const DoacaoController = () => {
   const create = async (req, res) => {
     const { body, token } = req;
+
+    const campanhaCheck = await checkCampanha(body, res);
+    if (campanhaCheck !== true) {
+      return campanhaCheck;
+    }
+
+    if (!Number.isInteger(body.doa_quantidade)) {
+      return res.status(400).json({ msg: 'Bad Request: Quantidade deve ser um inteiro' });
+    }
+
+    if (!(body.doa_quantidade > 0)) {
+      return res.status(400).json({ msg: 'Bad Request: Quantidade deve ser maior que 0' });
+    }
 
     try {
       const doacao = await Doacao.create({
@@ -33,6 +77,19 @@ const DoacaoController = () => {
         return res.status(400).json({ msg: 'Bad Request: User not found' });
     }
 
+    const campanhaCheck = await checkCampanha(body, res);
+    if (campanhaCheck !== true) {
+      return campanhaCheck;
+    }
+
+    if (!Number.isInteger(body.doa_quantidade)) {
+      return res.status(400).json({ msg: 'Bad Request: Quantidade deve ser um inteiro' });
+    }
+
+    if (!(body.doa_quantidade > 0)) {
+      return res.status(400).json({ msg: 'Bad Request: Quantidade deve ser maior que 0' });
+    }
+
     try {
       const doacao = await Doacao.create({
         doa_quantidade: body.doa_quantidade,
@@ -59,21 +116,33 @@ const DoacaoController = () => {
         });
 
       if (!doacao) {
-        return res.status(400).json({ msg: 'Bad Request: Doa��o not found' });
+        return res.status(400).json({ msg: 'Bad Request: Doação not found' });
+      }
+
+      const campanhaCheck = await checkCampanha(req.body, res, doacao.doa_campid);
+      if (campanhaCheck !== true) {
+        return campanhaCheck;
       }
 
       if (doacao.doa_confirmado) {
         if (req.body.confirm) {
-          return res.status(400).json({ msg: 'Doa��o j� foi confirmada.' });
+          return res.status(400).json({ msg: 'Doação já foi confirmada.' });
         }
       } else {
         if (!req.body.confirm) {
-          return res.status(400).json({ msg: 'Doa��o j� est� pendente.' });
+          return res.status(400).json({ msg: 'Doação já está pendente.' });
         }
       }
 
       let newValues = {doa_confirmado: req.body.confirm};
       if (req.body.doa_quantidade) {
+        if (!Number.isInteger(req.body.doa_quantidade)) {
+          return res.status(400).json({ msg: 'Bad Request: Quantidade deve ser um inteiro' });
+        }
+    
+        if (!(req.body.doa_quantidade > 0)) {
+          return res.status(400).json({ msg: 'Bad Request: Quantidade deve ser maior que 0' });
+        }
         newValues["doa_quantidade"] = req.body.doa_quantidade;
       }
       

@@ -1,15 +1,32 @@
 const User = require('../models/User');
+const Campanha = require('../models/Campanha');
+const Grupo = require('../models/Grupo');
 const authService = require('../services/auth.service');
 const bcryptService = require('../services/bcrypt.service');
 
 const UserController = () => {
   const register = async (req, res) => {
     const { body } = req;
+    const { usu_email, usu_password, usu_nome, usu_ra, usu_celular, usu_gruid } = body;
+
+    if (!Number.isInteger(usu_gruid)) {
+      return res.status(400).json({ msg: 'Bad Request: Grupo not found' });
+    }
+
+    const grupo = await Grupo
+    .findOne({
+      where: {
+        gru_id: usu_gruid
+      },
+    });
+
+    if (!grupo) {
+      return res.status(400).json({ msg: 'Bad Request: Grupo not found' });
+    }
 
     try {
       const user = await User.create({
-        usu_email: body.usu_email,
-        usu_password: body.usu_password,
+        usu_email, usu_password, usu_nome, usu_ra, usu_celular, usu_gruid
       });
       const token = authService().issue({ usu_id: user.usu_id });
 
@@ -107,6 +124,29 @@ const UserController = () => {
   const getDoacoes = async (req, res) => {
 
     try {
+      const user = await User
+        .findOne({
+          where: {
+            usu_id: req.params.usu_id,
+          },
+        });
+
+      if (!user) {
+        return res.status(400).json({ msg: 'Bad Request: User not found' });
+      }
+
+      const camp = await Campanha
+        .findOne({
+          where: {
+            camp_id: req.params.camp_id,
+          },
+        });
+
+      if (!camp) {
+        return res.status(400).json({ msg: 'Bad Request: Campanha not found' });
+      }
+
+
       const doacoes = await User.getDoacoes(req.params.usu_id, req.params.camp_id);
 
       return res.status(200).json(doacoes[0]);
