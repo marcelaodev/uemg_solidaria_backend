@@ -88,6 +88,12 @@ const UserController = () => {
       if (!user) {
         return res.status(400).json({ msg: 'Bad Request: User not found' });
       }
+      if (req.body.usu_id) {
+        delete req.body.usu_id;
+      }
+      if (req.body.usu_acesso) {
+        delete req.body.usu_acesso;
+      }
 
       user.update(req.body);
       

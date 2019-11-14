@@ -21,16 +21,32 @@ const User = sequelize.define('User', {
   usu_email: {
     type: Sequelize.STRING,
     unique: true,
+    allowNull: false,
+    validate: {
+      len: [4, 255],
+      isEmail: true,
+    },
   },
   usu_password: {
     type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      len: [6, 255],
+    },
   },
   usu_nome: {
     type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      len: [3, 255],
+    },
   },
   usu_ra: {
     type: Sequelize.STRING,
     unique: true,
+    validate: {
+      len: [5, 15],
+    },
   },
   usu_celular: {
     type: Sequelize.STRING,

@@ -19,6 +19,7 @@ module.exports = privateRoutes;
     *
     * 
     * @apiParam {String} [usu_email]           Email do usuário
+    * @apiParam {String} [usu_password]        Senha do usuário
    * @apiParam {String}   [usu_nome]            Nome do usuário
    * @apiParam {String}   [usu_ra]              RA (Registro Acadêmico) do usuário
    * @apiParam {String}   [usu_celular]         Celular do usuário
@@ -49,7 +50,7 @@ module.exports = privateRoutes;
     * @apiDescription Requer autenticação bearer obtido no método POST /public/login ou POST /public/user
     *
     * 
-    * @apiParam {Number} doa_quantidade     Quantidade de tampinhas pets doada
+    * @apiParam {Number{1-100}} doa_quantidade     Quantidade de tampinhas pets doada
     * @apiParam {Number} doa_campid         Id da campanha que a doação foi feita
     *
     *
