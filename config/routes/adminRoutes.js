@@ -14,6 +14,21 @@ module.exports = adminRoutes;
 
 
   /**
+   * @api {get} /admin/user/:usu_id/doacao/:camp_id   Retorna as doações do usuário no camp_id
+   * @apiVersion 0.1.0
+   * @apiName GetUsuarioDoacao
+   * @apiGroup Usuario
+   * @apiPermission admin
+   * @apiDescription Requer autenticação bearer obtido no método POST /public/login
+   *
+   * @apiSuccess {Number}   usu_id              Id do usuário
+   * @apiSuccess {Number}   camp_id           Email do usuário
+   *
+   * @apiError ToDo
+   *
+   */
+  
+  /**
    * @api {get} /admin/usuarios Retorna os dados de todos os usuários
    * @apiVersion 0.1.0
    * @apiName GetUsuarios
