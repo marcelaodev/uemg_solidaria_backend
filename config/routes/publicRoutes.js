@@ -82,8 +82,9 @@ module.exports = publicRoutes;
    * @apiGroup Grupo
    * @apiPermission public
    *
-   * @apiSuccess {Number}   gru_id       Id do grupo
-   * @apiSuccess {Number}   camp_id      Id da campanha
+   * @apiSuccess {Object[]}   usu           Id do grupo
+   * @apiSuccess {Number}   usu.usu_nome    Nome do integrante
+   * @apiSuccess {Number}   usu.total       Total de doações confirmadas do integrante
    *
    */
 
@@ -96,12 +97,12 @@ module.exports = publicRoutes;
     * @apiPermission public
     *
     * 
-    * @apiParam {String}   usu_email           Email do usuário
-    * @apiParam {String}   usu_password        Senha do usuário
-    * @apiParam {String}   usu_nome            Nome do usuário
-    * @apiParam {String}   [usu_ra]            RA (Registro Acadêmico) do usuário
+    * @apiParam {String{4..255}}   usu_email           Email do usuário
+    * @apiParam {String{6..255}}   usu_password        Senha do usuário
+    * @apiParam {String{3..255}}   usu_nome            Nome do usuário
+    * @apiParam {String{5..15}}   [usu_ra]            RA (Registro Acadêmico) do usuário
     * @apiParam {String}   [usu_celular]       Celular do usuário
-    * @apiParam {Number}   usu_gruid           Id do grupo (curso) que o usuário pertence
+    * @apiParam {Number}   [usu_gruid]           Id do grupo (curso) que o usuário pertence
     *
     * @apiSuccess {Number}      token         Bearer Token que deve ser usado nas requests /private e /admin
     * @apiSuccess {Number}      usu_id        Id do usuário criado
@@ -146,7 +147,10 @@ module.exports = publicRoutes;
    * 
     * @apiParam {String}   camp_id           Id da campanha para gerar o ranking
    *
-   * @apiSuccess ToDo
+   * @apiSuccess {Object[]}      usu
+    * @apiSuccess {String}   usu.usu_id             Id do usuário
+    * @apiSuccess {String}   usu.usu_nome           Nome do usuário doador
+    * @apiSuccess {String}   usu.total              Total de doações confirmadas na campanha
    * 
    * @apiError ToDo
    */
@@ -160,7 +164,10 @@ module.exports = publicRoutes;
    * 
     * @apiParam {String}   camp_id           Id da campanha para gerar o ranking
    *
-   * @apiSuccess ToDo
+   * @apiSuccess {Object[]}      gru
+    * @apiSuccess {String}   gru.gru_id             Id do grupo
+    * @apiSuccess {String}   gru.gru_nome           Nome do grupo doador
+    * @apiSuccess {String}   gru.total              Total de doações confirmadas na campanha
    * 
    * @apiError ToDo
    */

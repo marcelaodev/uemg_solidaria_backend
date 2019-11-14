@@ -65,7 +65,7 @@ module.exports = adminRoutes;
     * @apiDescription Requer autenticação bearer obtido no método POST /public/login
     *
     * 
-    * @apiParam {String} camp_nome       Nome da campanha
+    * @apiParam {String{4..255}} camp_nome       Nome da campanha
     * @apiParam {Date} camp_inicio       Data que a campanha inicia (YYYY-MM-DD)
     * @apiParam {Date} camp_final        Data que a campanha finaliza (YYYY-MM-DD)
     *
@@ -88,7 +88,7 @@ module.exports = adminRoutes;
     *
     * 
     * @apiParam {Number} usu_id             Id do usuário que realizou a doação (passado pelo URI)
-    * @apiParam {Number} doa_quantidade     Quantidade de tampinhas pets doada
+    * @apiParam {Number{1-100}} doa_quantidade     Quantidade de tampinhas pets doada
     * @apiParam {Number} doa_campid         Id da campanha que a doação foi feita
     * 
     *
@@ -121,6 +121,7 @@ module.exports = adminRoutes;
     * 
     * @apiParam {Number} doa_id             Id da doação a ser alterada (passado pelo URI)
     * @apiParam {Number} confirm            true=confirmar recebimento, false=estornar recebimento
+    * @apiParam {Number{1-100}} doa_quantidade     Quantidade de tampinhas pets doada
     * 
     *
     * @apiParamExample {url} Request-URI
@@ -128,7 +129,8 @@ module.exports = adminRoutes;
     *
     * @apiParamExample {json} Request-Body:
     *     {
-    *       "confirm": true
+    *       "confirm": true,
+    *       "doa_quantidade": 7
     *     }
     *
     *
