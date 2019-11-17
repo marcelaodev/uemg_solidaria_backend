@@ -9,19 +9,17 @@ const UserController = () => {
     const { body } = req;
     const { usu_email, usu_password, usu_nome, usu_ra, usu_celular, usu_gruid } = body;
 
-    if (!Number.isInteger(usu_gruid)) {
-      return res.status(400).json({ msg: 'Bad Request: Grupo not found' });
-    }
-
-    const grupo = await Grupo
-    .findOne({
-      where: {
-        gru_id: usu_gruid
-      },
-    });
-
-    if (!grupo) {
-      return res.status(400).json({ msg: 'Bad Request: Grupo not found' });
+    if (Number.isInteger(usu_gruid)) {
+      const grupo = await Grupo
+      .findOne({
+        where: {
+          gru_id: usu_gruid
+        },
+      });
+  
+      if (!grupo) {
+        return res.status(400).json({ msg: 'Bad Request: Grupo not found' });
+      }
     }
 
     try {
