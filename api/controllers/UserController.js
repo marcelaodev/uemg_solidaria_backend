@@ -112,7 +112,7 @@ const UserController = () => {
 
       user.update(req.body);
       
-      return res.status(200).json();
+      return res.status(200).json({ msg: 'OK' });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ msg: 'Internal server error', errors: err.errors });

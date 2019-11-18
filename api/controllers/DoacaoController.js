@@ -36,10 +36,18 @@ const DoacaoController = () => {
   const create = async (req, res) => {
     const { body, token } = req;
 
+    if (!body.doa_campid) {
+      const unica_camp_id = await Campanha.getUnicaAtiva();
+      if (unica_camp_id) {
+        body.doa_campid = unica_camp_id;
+      }
+    }
+    
     const campanhaCheck = await checkCampanha(body, res);
     if (campanhaCheck !== true) {
       return campanhaCheck;
     }
+    body.doa_quantidade = Number(body.doa_quantidade);
 
     if (!Number.isInteger(body.doa_quantidade)) {
       return res.status(400).json({ msg: 'Bad Request: Quantidade deve ser um inteiro' });

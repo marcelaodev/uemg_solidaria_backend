@@ -75,6 +75,25 @@ Campanha.get = (camp_id) => Campanha.findOne({
   },
 });
 
+Campanha.getUnicaAtiva = async () => {
+  let sql = `
+    SELECT
+      c.camp_id
+
+      FROM campanha c
+
+      WHERE c.camp_final > NOW()
+  `;
+
+  const [result] = await sequelize.query(sql);
+  console.log(result);
+
+  if (result.length == 1) {
+    return result[0].camp_id;
+  }
+  return false;
+};
+
 Campanha.getRankingGrupo = (camp_id) => {
   let sql = `
     SELECT
