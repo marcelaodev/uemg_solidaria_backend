@@ -160,11 +160,15 @@ Campanha.getDoacoes = (camp_id) => {
   let sql = `
     select
       d.doa_usuid,
+      u.usu_nome,
       d.doa_id,
       d.doa_quantidade,
       d.doa_confirmado
       
       from doacao d
+
+      inner join users u
+        on u.usu_id = d.doa_usuid
       
       where d.doa_campid = ${camp_id}`;
 
