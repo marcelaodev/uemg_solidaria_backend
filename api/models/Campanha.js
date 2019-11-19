@@ -86,7 +86,6 @@ Campanha.getUnicaAtiva = async () => {
   `;
 
   const [result] = await sequelize.query(sql);
-  console.log(result);
 
   if (result.length == 1) {
     return result[0].camp_id;
@@ -153,6 +152,21 @@ Campanha.getRankingIndividual = (camp_id) => {
         
       order by
         total DESC`;
+
+  return sequelize.query(sql);
+}
+
+Campanha.getDoacoes = (camp_id) => {
+  let sql = `
+    select
+      d.doa_usuid,
+      d.doa_id,
+      d.doa_quantidade,
+      d.doa_confirmado
+      
+      from doacao d
+      
+      where d.doa_campid = ${camp_id}`;
 
   return sequelize.query(sql);
 }
