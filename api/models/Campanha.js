@@ -163,7 +163,9 @@ Campanha.getDoacoes = (camp_id) => {
       u.usu_nome,
       d.doa_id,
       d.doa_quantidade,
-      d.doa_confirmado
+      d.doa_confirmado,
+      d."createdAt",
+      d."updatedAt"
       
       from doacao d
 
