@@ -90,6 +90,7 @@ const DoacaoController = () => {
       return campanhaCheck;
     }
 
+    body.doa_quantidade = Number(body.doa_quantidade);
     if (!Number.isInteger(body.doa_quantidade)) {
       return res.status(400).json({ msg: 'Bad Request: Quantidade deve ser um inteiro' });
     }
@@ -133,7 +134,7 @@ const DoacaoController = () => {
       }
 
       if (doacao.doa_confirmado) {
-        if (req.body.confirm) {
+        if (req.body.confirm === true) {
           return res.status(400).json({ msg: 'Doação já foi confirmada.' });
         }
       } else {
@@ -143,6 +144,7 @@ const DoacaoController = () => {
       }
 
       let newValues = {doa_confirmado: req.body.confirm};
+      req.body.doa_quantidade = Number(req.body.doa_quantidade);
       if (req.body.doa_quantidade) {
         if (!Number.isInteger(req.body.doa_quantidade)) {
           return res.status(400).json({ msg: 'Bad Request: Quantidade deve ser um inteiro' });
@@ -156,7 +158,7 @@ const DoacaoController = () => {
       
       doacao.update(newValues);
       
-      return res.status(200).json();
+      return res.status(200).json({});
     } catch (err) {
       console.log(err);
       return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
