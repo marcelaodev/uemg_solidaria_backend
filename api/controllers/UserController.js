@@ -28,7 +28,7 @@ const UserController = () => {
       });
       const token = authService().issue({ usu_id: user.usu_id });
 
-      return res.status(200).json({ token, usu_id: user.usu_id });
+      return res.status(200).json({ token, user });
     } catch (err) {
       console.log(err);
       return res.status(500).json({ msg: 'Internal server error', errors: err.errors });

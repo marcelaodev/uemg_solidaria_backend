@@ -96,6 +96,9 @@ Campanha.getUnicaAtiva = async () => {
 Campanha.getRankingGrupo = (camp_id) => {
   let sql = `
     SELECT
+      rank () over ( 
+          order by sum(d.doa_quantidade) desc
+      ) as position,
       g.gru_id,
       g.gru_nome,
       sum(d.doa_quantidade) AS total
@@ -129,8 +132,12 @@ Campanha.getRankingGrupo = (camp_id) => {
 Campanha.getRankingIndividual = (camp_id) => {
   let sql = `
     select
+      rank () over ( 
+          order by sum(d.doa_quantidade) desc
+      ) as position,
       u.usu_id,
       u.usu_nome,
+      u.usu_ra,
       sum(d.doa_quantidade) as total
       
       from campanha c
@@ -147,6 +154,7 @@ Campanha.getRankingIndividual = (camp_id) => {
       group by
         u.usu_id,
         u.usu_nome,
+        u.usu_ra,
         c.camp_id,
         d.doa_usuid
         
