@@ -16,6 +16,27 @@ module.exports = adminRoutes;
 
 
   /**
+   * @api {get} /admin/campanha/:camp_id/doacoes   Retorna todas doações da campanha
+   * @apiVersion 0.1.0
+   * @apiName GetCampanhaDoacoes
+   * @apiGroup Campanha
+   * @apiPermission admin
+   * @apiDescription Requer autenticação bearer obtido no método POST /public/login
+   *
+   * @apiSuccess {Object[]}   usu                     Usuario
+   * @apiSuccess {Number}   usu.doa_usuid             Usuario id da doação
+   * @apiSuccess {String}   usu.usu_nome              Nome do usuário
+   * @apiSuccess {Number}   usu.doa_id                Id da doação
+   * @apiSuccess {Number}   usu.doa_quantidade        Quantidade de tampinhas
+   * @apiSuccess {Number}   usu.doa_confirmado        Doação foi confirmada por um admin
+   * @apiSuccess {Date}   usu.createdAt             Data criação
+   * @apiSuccess {Date}   usu.updatedAt             Data última modificação
+   *
+   * @apiError ToDo
+   *
+   */
+
+  /**
    * @api {get} /admin/user/:usu_id/doacao/:camp_id   Retorna as doações do usuário no camp_id
    * @apiVersion 0.1.0
    * @apiName GetUsuarioDoacao
