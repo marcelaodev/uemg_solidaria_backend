@@ -1,6 +1,7 @@
 const publicRoutes = {
   'POST /user': 'UserController.register',
   'POST /login': 'UserController.login',
+  'POST /validate': 'UserController.validate',
 
   'GET /campanhas': 'CampanhaController.getAll',
   'GET /campanha/:camp_id': 'CampanhaController.get',
@@ -133,6 +134,25 @@ module.exports = publicRoutes;
     * @apiSuccess {String}   usu.usu_ra            RA (Registro Acadêmico) do usuário
     * @apiSuccess {String}   usu.usu_celular       Celular do usuário
     * @apiSuccess {Number}   usu.usu_gruid           Id do grupo (curso) que o usuário pertence
+    * 
+    * @apiError ToDo
+    *
+    */
+
+  /**
+    * 
+    * @api {post} /public/validate/       Valida o token
+    * @apiVersion 0.1.0
+    * @apiName PostValidate
+    * @apiGroup Usuario
+    * @apiPermission public
+    *
+    * 
+    * @apiParam {String}   token              Token que o client guardou e quer verificar validade
+    *
+    * @apiSuccess {Boolean}       isvalid        Retorna se o token ainda possui validade ou não
+    * @apiSuccess {String}        usu_acesso     Nível de acesso do token
+    * 
     * 
     * @apiError ToDo
     *
