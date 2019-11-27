@@ -71,17 +71,18 @@ const UserController = () => {
     const { token } = req.body;
 
     authService().verify(token, async (err, thisToken) => {
+
+      if (err) {
+        return res.status(401).json({ isvalid: false, err: 'Invalid Token!' });
+      }
+
       const user = await User
           .findOne({
             where: {
               usu_id: thisToken.usu_id,
             },
           });
-
-      if (err) {
-        return res.status(401).json({ isvalid: false, err: 'Invalid Token!' });
-      }
-
+          
       return res.status(200).json({ isvalid: true, usu_acesso: user.usu_acesso });
     });
   };
