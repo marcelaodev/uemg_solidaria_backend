@@ -1,1 +1,3 @@
-# UEMG Solid·rio
+# UEMG Solid√°ria
+
+http://solidario.sytes.net/apidoc/
