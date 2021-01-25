@@ -1,38 +1,49 @@
 const User = require('../models/User');
+const Campanha = require('../models/Campanha');
+const Grupo = require('../models/Grupo');
 const authService = require('../services/auth.service');
 const bcryptService = require('../services/bcrypt.service');
 
 const UserController = () => {
   const register = async (req, res) => {
     const { body } = req;
+    const { usu_email, usu_password, usu_nome, usu_ra, usu_celular, usu_gruid } = body;
 
-    if (body.password === body.password2) {
-      try {
-        const user = await User.create({
-          email: body.email,
-          password: body.password,
-        });
-        const token = authService().issue({ id: user.id });
-
-        return res.status(200).json({ token, user });
-      } catch (err) {
-        console.log(err);
-        return res.status(500).json({ msg: 'Internal server error' });
+    if (Number.isInteger(usu_gruid)) {
+      const grupo = await Grupo
+      .findOne({
+        where: {
+          gru_id: usu_gruid
+        },
+      });
+  
+      if (!grupo) {
+        return res.status(400).json({ msg: 'Bad Request: Grupo not found' });
       }
     }
 
-    return res.status(400).json({ msg: 'Bad Request: Passwords don\'t match' });
+    try {
+      const user = await User.create({
+        usu_email, usu_password, usu_nome, usu_ra, usu_celular, usu_gruid
+      });
+      const token = authService().issue({ usu_id: user.usu_id });
+
+      return res.status(200).json({ token, user });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
+    }
   };
 
   const login = async (req, res) => {
-    const { email, password } = req.body;
+    const { usu_email, usu_password } = req.body;
 
-    if (email && password) {
+    if (usu_email && usu_password) {
       try {
         const user = await User
           .findOne({
             where: {
-              email,
+              usu_email: usu_email,
             },
           });
 
@@ -40,8 +51,8 @@ const UserController = () => {
           return res.status(400).json({ msg: 'Bad Request: User not found' });
         }
 
-        if (bcryptService().comparePassword(password, user.password)) {
-          const token = authService().issue({ id: user.id });
+        if (bcryptService().comparePassword(usu_password, user.usu_password)) {
+          const token = authService().issue({ usu_id: user.usu_id });
 
           return res.status(200).json({ token, user });
         }
@@ -49,7 +60,7 @@ const UserController = () => {
         return res.status(401).json({ msg: 'Unauthorized' });
       } catch (err) {
         console.log(err);
-        return res.status(500).json({ msg: 'Internal server error' });
+        return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
       }
     }
 
@@ -59,12 +70,20 @@ const UserController = () => {
   const validate = (req, res) => {
     const { token } = req.body;
 
-    authService().verify(token, (err) => {
+    authService().verify(token, async (err, thisToken) => {
+
       if (err) {
         return res.status(401).json({ isvalid: false, err: 'Invalid Token!' });
       }
 
-      return res.status(200).json({ isvalid: true });
+      const user = await User
+          .findOne({
+            where: {
+              usu_id: thisToken.usu_id,
+            },
+          });
+          
+      return res.status(200).json({ isvalid: true, usu_acesso: user.usu_acesso });
     });
   };
 
@@ -72,19 +91,84 @@ const UserController = () => {
     try {
       const users = await User.findAll();
 
-      return res.status(200).json({ users });
+      return res.status(200).json( users );
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ msg: 'Internal server error' });
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
     }
   };
 
+  const edit = async (req, res) => {
+
+    try {
+      const user = await User
+        .findOne({
+          where: {
+            usu_id: req.token.usu_id,
+          },
+        });
+
+      if (!user) {
+        return res.status(400).json({ msg: 'Bad Request: User not found' });
+      }
+      if (req.body.usu_id) {
+        delete req.body.usu_id;
+      }
+      if (req.body.usu_acesso) {
+        delete req.body.usu_acesso;
+      }
+
+      user.update(req.body);
+      
+      return res.status(200).json({ msg: 'OK' });
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
+    }
+  };
+
+  const getDoacoes = async (req, res) => {
+
+    try {
+      const user = await User
+        .findOne({
+          where: {
+            usu_id: req.params.usu_id,
+          },
+        });
+
+      if (!user) {
+        return res.status(400).json({ msg: 'Bad Request: User not found' });
+      }
+
+      const camp = await Campanha
+        .findOne({
+          where: {
+            camp_id: req.params.camp_id,
+          },
+        });
+
+      if (!camp) {
+        return res.status(400).json({ msg: 'Bad Request: Campanha not found' });
+      }
+
+
+      const doacoes = await User.getDoacoes(req.params.usu_id, req.params.camp_id);
+
+      return res.status(200).json(doacoes[0]);
+    } catch (err) {
+      console.log(err);
+      return res.status(500).json({ msg: 'Internal server error', errors: err.errors });
+    }
+  };
 
   return {
     register,
     login,
     validate,
     getAll,
+    edit,
+    getDoacoes
   };
 };
 
